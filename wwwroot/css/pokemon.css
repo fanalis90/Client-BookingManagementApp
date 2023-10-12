@@ -1,0 +1,120 @@
+﻿#gambar-pokemon {
+    height: 200px;
+    width : 200px;
+}
+
+.pokemon-detail {
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.pokemon-detail p {
+    margin-bottom: 5px;
+}
+
+.pokemon-detail div {
+    margin-bottom: 5px;
+}
+
+#tipe-pokemon span {
+    margin-right: 5px;
+}
+
+.moves {
+    height: 200px;
+    overflow: auto;
+}
+
+.badge {
+    padding: 5px 10px; /* Padding to adjust badge size */
+    border-radius: 50px; /* Rounded corners */
+}
+
+.badge.bg-grass {
+    background-color: #4CAF50; /* Green background color for grass type */
+    color: white; /* Text color */
+}
+
+.badge.bg-fire {
+    background-color: #FF5722; /* Orange background color for fire type */
+    color: white; /* Text color */
+}
+
+.badge.bg-water {
+    background-color: #2196F3; /* Blue background color for water type */
+    color: white; /* Text color */
+}
+.badge.bg-bug {
+    background-color: #8BC34A; /* Color for bug type */
+    color: white; /* Text color */
+}
+
+.badge.bg-fairy {
+    background-color: #FF4081; /* Color for fairy type */
+    color: white; /* Text color */
+}
+
+.badge.bg-dragon {
+    background-color: #673AB7; /* Color for dragon type */
+    color: white; /* Text color */
+}
+
+.badge.bg-ghost {
+    background-color: #6A1B9A; /* Color for ghost type */
+    color: white; /* Text color */
+}
+
+.badge.bg-ground {
+    background-color: #8D6E63; /* Color for ground type */
+    color: white; /* Text color */
+}
+
+.badge.bg-normal {
+    background-color: #E0E0E0; /* Color for normal type */
+    color: #333; /* Text color */
+}
+
+.badge.bg-psychic {
+    background-color: #FF9800; /* Color for psychic type */
+    color: white; /* Text color */
+}
+
+.badge.bg-steel {
+    background-color: #607D8B; /* Color for steel type */
+    color: white; /* Text color */
+}
+
+.badge.bg-dark {
+    background-color: #455A64; /* Color for dark type */
+    color: white; /* Text color */
+}
+
+.badge.bg-electric {
+    background-color: #FFC107; /* Color for electric type */
+    color: #333; /* Text color */
+}
+
+.badge.bg-fighting {
+    background-color: #FF5722; /* Color for fighting type */
+    color: white; /* Text color */
+}
+
+.badge.bg-flying {
+    background-color: #03A9F4; /* Color for flying type */
+    color: white; /* Text color */
+}
+
+.badge.bg-ice {
+    background-color: #03A9F4; /* Color for ice type */
+    color: white; /* Text color */
+}
+
+.badge.bg-poison {
+    background-color: #9C27B0; /* Color for poison type */
+    color: white; /* Text color */
+}
+
+.badge.bg-rock {
+    background-color: #795548; /* Color for rock type */
+    color: white; /* Text color */
+}
