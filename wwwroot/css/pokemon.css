@@ -1,11 +1,21 @@
-﻿#gambar-pokemon {
-    height: 200px;
-    width : 200px;
+﻿
+#gambar-pokemon {
+    width: 200px;
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+.pokemon-info {
+    display: block;
+    width: 100%;
+    height: 100%;
+    
 }
 
 .pokemon-detail {
     padding: 10px;
     margin-bottom: 10px;
+
 }
 
 .pokemon-detail p {
