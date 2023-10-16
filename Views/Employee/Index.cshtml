@@ -17,20 +17,25 @@
             <th>Action</th>
         </tr>
     </thead>
-    <tbody >
+    <tbody>
     </tbody>
 </table>
+
 
 <!-- Modal -->
 <div class="modal fade" id="createEmployeeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Create Employee</h1>
+                <h1 class="modal-title fs-5" id="modalTitle">Create Employee</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form method="post" id="createEmployeeForm">
+                    <input id="updateEmployeeGuid" type="hidden" class="form-control" />
+
+                    <input type="hidden" class="form-control" id="nik" disabled>
+
                     <div class="mb-3">
                         <label for="firstName" class="form-label">First Name</label>
                         <input type="text" class="form-control" id="firstName">
@@ -48,7 +53,7 @@
                         <select name="gender" id="gender">
                             <option value="1">Male</option>
                             <option value="0">Female</option>
-                        </select>                      
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="hiringDate">Hiring Date</label>
@@ -62,14 +67,35 @@
                         <label class="form-label" for="phoneNumber">Phone Number</label>
                         <input type="tel" class="form-control" id="phoneNumber">
                     </div>
-                    <button type="submit" id="submitCreateEmployee" class="btn btn-primary">Submit</button>
+                    <button type="button" id="submitCreateEmployee" class="btn btn-primary">Create</button>
+                    <button type="button" style="display:none;" id="submitUpdateEmployee" class="btn btn-primary">Update</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
-
+<!-- Modal -->
+<div class="modal fade" id="deleteEmployeeModal" tabindex="-1" aria-labelledby="modalDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalDeleteTitle">Confirm Delete</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="deleteEmployeeForm">
+                <div class="modal-body">
+                    <input id="deleteEmployeeGuid" type="hidden" class="form-control" />
+                    Yakin ingin menghapus Data ini?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                    <button type="button" id="submitDeleteEmployee" class="btn btn-primary">Ya</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @section Links{
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
     <link href="~/css/employee.css" rel="stylesheet" type="text/css" />
