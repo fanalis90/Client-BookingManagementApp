@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "List";
+    Layout = "_AdminLayout";
 }
 
 <h1>List</h1>
@@ -70,7 +71,7 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "UpdateClient", new { guid = item.Guid  }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Detail", new { guid = item.Guid }) |
                 @Html.ActionLink("Delete", "DeleteClient", new { guid = item.Guid })
             </td>
         </tr>

@@ -35,6 +35,16 @@ namespace Client.Controllers
                 listEmployee = result.Data.ToList();
             }
             return View(listEmployee);
+        }  
+        public async Task<IActionResult> Detail(Guid guid)
+        {
+            var result = await _emplyeeRepository.GetDetail(guid);
+            var listEmployee = new EmployeeDetailsDto();
+            if (result.Data != null)
+            {
+                listEmployee = result.Data;
+            }
+            return View(listEmployee);
         }
 
         public IActionResult CreateClient()
@@ -48,6 +58,7 @@ namespace Client.Controllers
             var result = await _emplyeeRepository.Post(createEmployeeDto);
             if(result != null)
             {
+                TempData["success"] = "Created!Your data has been created.";
                 return RedirectToAction("List");
             }
             return View();
@@ -71,6 +82,7 @@ namespace Client.Controllers
             var result = await _emplyeeRepository.Put(EmployeeDto.Guid,EmployeeDto);
             if(result != null)
             {
+                TempData["success"] = "Updated!Your data has been updated."; 
                 return RedirectToAction("List");
             }
             return View();
@@ -93,6 +105,7 @@ namespace Client.Controllers
             var result = await _emplyeeRepository.Delete(employeeDto.Guid);
             if(result != null)
             {
+                TempData["success"] = "Deleted!Your data has been deleted.";
                 return RedirectToAction("List");
             }
             return View();

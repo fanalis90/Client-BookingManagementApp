@@ -16,7 +16,7 @@ namespace Client.Repositories
         public GeneralRepository(string request)
         {
             this.request = request;
-            httpClient = new HttpClient
+            this.httpClient = new HttpClient
             {
                 BaseAddress = new Uri("https://localhost:7290/api/")
             };
@@ -47,6 +47,17 @@ namespace Client.Repositories
             }
             return entityVM;
         }
+        public async Task<ResponseOkHandler<EmployeeDetailsDto>> GetDetail(Guid id)
+        {
+            ResponseOkHandler<EmployeeDetailsDto> entityVM = null;
+            StringContent content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+            using (var response = await httpClient.GetAsync(request + "details/" + id))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entityVM = JsonConvert.DeserializeObject<ResponseOkHandler<EmployeeDetailsDto>>(apiResponse);
+            }
+            return entityVM;
+        }
 
         public async Task<ResponseOkHandler<Entity>> Get(TId id)
         {
@@ -59,6 +70,8 @@ namespace Client.Repositories
             }
             return entityVM;
         }
+        
+
 
         public async Task<ResponseOkHandler<Entity>> Post(createEntity entity)
         {
