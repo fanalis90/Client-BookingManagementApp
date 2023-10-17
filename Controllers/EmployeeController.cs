@@ -7,10 +7,11 @@ using System.Diagnostics;
 
 namespace Client.Controllers
 {
+ 
     public class EmployeeController : Controller
     {
         //private readonly ILogger<EmployeeController> _logger;
-        private readonly IEmployeeRepository repository;
+        private readonly IEmployeeRepository _emplyeeRepository;
 
         //public EmployeeController(ILogger<EmployeeController> logger)
         //{
@@ -18,7 +19,7 @@ namespace Client.Controllers
         //}
         public EmployeeController(IEmployeeRepository repository)
         {
-            this.repository = repository;
+            _emplyeeRepository = repository;
         }
         public IActionResult Index()
         {
@@ -27,13 +28,63 @@ namespace Client.Controllers
         
         public async Task<IActionResult> List()
         {
-            var result = await repository.Get();
+            var result = await _emplyeeRepository.Get();
             var listEmployee = new List<EmployeeDto>();
-            if (result != null)
+            if (result.Data != null)
             {
                 listEmployee = result.Data.ToList();
             }
             return View(listEmployee);
+        }
+
+        public IActionResult CreateClient()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCLient(CreateEmployeeDto createEmployeeDto)
+        {
+            var result = await _emplyeeRepository.Post(createEmployeeDto);
+            if(result != null)
+            {
+                return RedirectToAction("List");
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UpdateClient(Guid guid)
+        {
+            var result = await _emplyeeRepository.Get(guid);
+            var Employee = new EmployeeDto();
+            if (result.Data != null)
+            {
+                Employee = result.Data;
+            }
+            return View(Employee);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateCLient(EmployeeDto EmployeeDto)
+        {
+            var result = await _emplyeeRepository.Put(EmployeeDto.Guid,EmployeeDto);
+            if(result != null)
+            {
+                return RedirectToAction("List");
+            }
+            return View();
+        }
+        
+        [HttpDelete]
+        public async Task<IActionResult> DeleteCLient(CreateEmployeeDto createEmployeeDto)
+        {
+            var result = await _emplyeeRepository.Post(createEmployeeDto);
+            if(result != null)
+            {
+                return RedirectToAction("List");
+            }
+            return View();
         }
 
 

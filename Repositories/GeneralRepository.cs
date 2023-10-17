@@ -1,10 +1,11 @@
 ﻿using API.Utilities.Handlers;
 using Client.Contracts;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace Client.Repositories
 {
-    public class GeneralRepository<Entity, TId> : IRepository<Entity, TId>
+    public class GeneralRepository<Entity, createEntity, TId> : IRepository<Entity, createEntity, TId>
          where Entity : class
     {
         private readonly string request;
@@ -24,9 +25,16 @@ namespace Client.Repositories
             //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", contextAccessor.HttpContext?.Session.GetString("JWToken"));
         }
 
-        public Task<ResponseOkHandler<Entity>> Delete(TId id)
+        public async Task<ResponseOkHandler<Entity>> Delete(TId id)
         {
-            throw new NotImplementedException();
+            ResponseOkHandler<Entity> entityVM = null;
+            StringContent content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+            using (var response = httpClient.DeleteAsync(request + id).Result)
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entityVM = JsonConvert.DeserializeObject<ResponseOkHandler<Entity>>(apiResponse);
+            }
+            return entityVM;
         }
 
         public async Task<ResponseOkHandler<IEnumerable<Entity>>> Get()
@@ -40,19 +48,46 @@ namespace Client.Repositories
             return entityVM;
         }
 
-        public Task<ResponseOkHandler<Entity>> Get(TId id)
+        public async Task<ResponseOkHandler<Entity>> Get(TId id)
         {
-            throw new NotImplementedException();
+            ResponseOkHandler<Entity> entityVM = null;
+            StringContent content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+            using (var response = await httpClient.GetAsync(request+id))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entityVM = JsonConvert.DeserializeObject<ResponseOkHandler<Entity>>(apiResponse);
+            }
+            return entityVM;
         }
 
-        public Task<ResponseOkHandler<Entity>> Post(Entity entity)
+        public async Task<ResponseOkHandler<Entity>> Post(createEntity entity)
         {
-            throw new NotImplementedException();
+            ResponseOkHandler<Entity> entityVM = null;
+            string entityJson = JsonConvert.SerializeObject(entity);
+            HttpContent httpContent = new StringContent(entityJson, Encoding.UTF8, "application/json");
+
+            using (var response = await httpClient.PostAsync(request, httpContent))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entityVM = JsonConvert.DeserializeObject<ResponseOkHandler<Entity>>(apiResponse);
+            }
+                
+            return entityVM;
         }
 
-        public Task<ResponseOkHandler<Entity>> Put(TId id, Entity entity)
+        public async Task<ResponseOkHandler<Entity>> Put(TId id, Entity entity)
         {
-            throw new NotImplementedException();
+            ResponseOkHandler<Entity> entityVM = null;
+            string entityJson = JsonConvert.SerializeObject(entity);
+            HttpContent httpContent = new StringContent(entityJson, Encoding.UTF8, "application/json");
+
+            using (var response = await httpClient.PutAsync(request, httpContent))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entityVM = JsonConvert.DeserializeObject<ResponseOkHandler<Entity>>(apiResponse);
+            }
+
+            return entityVM;
         }
     }
 }
