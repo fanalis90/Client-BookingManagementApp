@@ -1,4 +1,7 @@
-﻿using Client.Models;
+﻿
+using API.DTOs.Employees;
+using Client.Contracts;
+using Client.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,16 +9,31 @@ namespace Client.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly ILogger<EmployeeController> _logger;
+        //private readonly ILogger<EmployeeController> _logger;
+        private readonly IEmployeeRepository repository;
 
-        public EmployeeController(ILogger<EmployeeController> logger)
+        //public EmployeeController(ILogger<EmployeeController> logger)
+        //{
+        //    _logger = logger;
+        //}
+        public EmployeeController(IEmployeeRepository repository)
         {
-            _logger = logger;
+            this.repository = repository;
         }
-
         public IActionResult Index()
         {
             return View();
+        }
+        
+        public async Task<IActionResult> List()
+        {
+            var result = await repository.Get();
+            var listEmployee = new List<EmployeeDto>();
+            if (result != null)
+            {
+                listEmployee = result.Data.ToList();
+            }
+            return View(listEmployee);
         }
 
 

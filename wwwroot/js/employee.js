@@ -173,6 +173,7 @@ function updateEmployee() {
         dataTableEmployee.ajax.reload();
 
     }).fail((error) => {
+        console.log(error)
         alert(error);
     });
 };
