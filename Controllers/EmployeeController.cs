@@ -75,11 +75,22 @@ namespace Client.Controllers
             }
             return View();
         }
-        
-        [HttpDelete]
-        public async Task<IActionResult> DeleteCLient(CreateEmployeeDto createEmployeeDto)
+        [HttpGet]
+        public async Task<IActionResult> DeleteClient(Guid guid)
         {
-            var result = await _emplyeeRepository.Post(createEmployeeDto);
+            var result = await _emplyeeRepository.Get(guid);
+            var Employee = new EmployeeDto();
+            if (result.Data != null)
+            {
+                Employee = result.Data;
+            }
+            return View(Employee);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteCLient(EmployeeDto employeeDto)
+        {
+            var result = await _emplyeeRepository.Delete(employeeDto.Guid);
             if(result != null)
             {
                 return RedirectToAction("List");
