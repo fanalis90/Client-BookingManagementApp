@@ -1,6 +1,7 @@
 ﻿using API.Utilities.Handlers;
 using Client.Contracts;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace Client.Repositories
@@ -8,21 +9,21 @@ namespace Client.Repositories
     public class GeneralRepository<Entity, createEntity, TId> : IRepository<Entity, createEntity, TId>
          where Entity : class
     {
-        private readonly string request;
+        protected readonly string request;
         private readonly HttpContextAccessor contextAccessor;
-        private HttpClient httpClient;
+        protected readonly HttpClient httpClient;
 
         //constructor
         public GeneralRepository(string request)
         {
             this.request = request;
-            this.httpClient = new HttpClient
+            httpClient = new HttpClient
             {
                 BaseAddress = new Uri("https://localhost:7290/api/")
             };
-            //contextAccessor = new HttpContextAccessor();
-            // Ini yg bawah skip dulu
-            //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", contextAccessor.HttpContext?.Session.GetString("JWToken"));
+            contextAccessor = new HttpContextAccessor();
+        
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", contextAccessor.HttpContext?.Session.GetString("JWToken"));
         }
 
         public async Task<ResponseOkHandler<Entity>> Delete(TId id)
@@ -47,18 +48,7 @@ namespace Client.Repositories
             }
             return entityVM;
         }
-        public async Task<ResponseOkHandler<EmployeeDetailsDto>> GetDetail(Guid id)
-        {
-            ResponseOkHandler<EmployeeDetailsDto> entityVM = null;
-            StringContent content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
-            using (var response = await httpClient.GetAsync(request + "details/" + id))
-            {
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                entityVM = JsonConvert.DeserializeObject<ResponseOkHandler<EmployeeDetailsDto>>(apiResponse);
-            }
-            return entityVM;
-        }
-
+    
         public async Task<ResponseOkHandler<Entity>> Get(TId id)
         {
             ResponseOkHandler<Entity> entityVM = null;

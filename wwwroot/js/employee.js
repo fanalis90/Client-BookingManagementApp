@@ -27,7 +27,7 @@ let dataTableEmployee =  $("#tableEmployee").DataTable({
         ],
         ajax: {
             ordering: false,
-            url: "https://localhost:7290/api/Employee",
+            url: "/Employee/ListJson",
             dataSrc: "data",
             dataType: "json"
         },
@@ -99,19 +99,18 @@ let dataTableEmployee =  $("#tableEmployee").DataTable({
 
     });
 function getData() {
-    return new Promise(function (resolve, reject) {
+   
         $.ajax({
-            url: 'https://localhost:7290/api/Employee',
+            url: '/Employee/ListJson',
             method: 'GET',
             dataType: 'json',
-            success: function (data) {
-                resolve(data); // Resolve the Promise with the retrieved data
-            },
-            error: function (xhr, status, error) {
-                reject(error); // Reject the Promise in case of an error
-            }
+         
+         
+        }).done((res) => {
+            console.log(res);
+        }).fail((err) => {
+            console.log(err);
         });
-    });
 }
 
 let createEmployee = () => {
@@ -204,6 +203,7 @@ let deleteEmployee = () => {
 
 $(document).ready(function () {
     dataTableEmployee;
+    getData();
     $(".createEmployeeBtn").html(`<i class="bi bi-plus-circle"></i> Add`);
     $(".createEmployeeBtn").attr("data-bs-target", "#createEmployeeModal");
     $(".createEmployeeBtn").attr("data-bs-toggle", "modal");

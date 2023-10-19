@@ -5,10 +5,12 @@
     <script type="text/javascript">
         let satu = '@TempData["success"]'.split("!")[0]
         let dua = '@TempData["success"]'.split("!")[1]
-        Swal.fire(
-            satu,
-            dua,
-            'success'
-        )
+        Swal.fire({
+            title: satu,
+            text: dua,
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1500
+        })
     </script>
 }

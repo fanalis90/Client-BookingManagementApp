@@ -1,7 +1,9 @@
 ﻿
 using API.DTOs.Employees;
+using API.Utilities.Handlers;
 using Client.Contracts;
 using Client.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -116,6 +118,17 @@ namespace Client.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public async Task<JsonResult> ListJson()
+        {
+            var result = await _emplyeeRepository.Get();
+            var listEmployee = new ResponseOkHandler<IEnumerable<EmployeeDto>>();
+            if (result.Data != null)
+            {
+                listEmployee = result;
+            }
+            return Json(listEmployee);
         }
     }
 }
