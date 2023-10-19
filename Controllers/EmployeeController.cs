@@ -6,10 +6,11 @@ using Client.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace Client.Controllers
 {
- 
+    [Authorize]
     public class EmployeeController : Controller
     {
         //private readonly ILogger<EmployeeController> _logger;
@@ -27,7 +28,7 @@ namespace Client.Controllers
         {
             return View();
         }
-        
+        [Authorize(Policy = "Manager")]
         public async Task<IActionResult> List()
         {
             var result = await _emplyeeRepository.Get();
@@ -36,6 +37,7 @@ namespace Client.Controllers
             {
                 listEmployee = result.Data.ToList();
             }
+
             return View(listEmployee);
         }  
         public async Task<IActionResult> Detail(Guid guid)

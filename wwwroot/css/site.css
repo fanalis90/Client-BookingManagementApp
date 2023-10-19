@@ -16,3 +16,21 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.bg-login-image-new {
+    background: url(https://images.unsplash.com/photo-1692035072849-93a511f35b2c);
+    background-position: center;
+    background-size: cover;
+}
+
+.bg-register-image-new {
+    background: url("~/admin/img/login.jpg");
+    background-position: center;
+    background-size: cover;
+}
+
+.bg-password-image-new {
+    background: url("~/admin/img/login.jpg");
+    background-position: center;
+    background-size: cover;
+}

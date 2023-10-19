@@ -13,7 +13,7 @@ builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped( typeof(IRepository<,,>), typeof(GeneralRepository<,,>));
+builder.Services.AddScoped(typeof(IRepository<,,>), typeof(GeneralRepository<,,>));
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
@@ -35,6 +35,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+    //JWT Policies
+    builder.Services.AddAuthorization(options =>
+    {
+        options.AddPolicy("User", policy =>
+            policy.RequireRole("User"));
+        options.AddPolicy("Manager", policy =>
+            policy.RequireRole("Manager"));
+
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -50,7 +60,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseStatusCodePages(async context => {
+app.UseStatusCodePages(async context =>
+{
     var response = context.HttpContext.Response;
 
     if (response.StatusCode.Equals((int)HttpStatusCode.Unauthorized))

@@ -1,4 +1,28 @@
-﻿@if (TempData["success"] != null)
+﻿@using System.Security.Claims;
+@{
+    var claimsIdentity = User.Identity as ClaimsIdentity;
+    var name = "user";
+    if (claimsIdentity != null)
+    {
+        // Get the value of a specific claim
+        var emailClaim = claimsIdentity.FindFirst("Email");
+        var fullNameClaim = claimsIdentity.FindFirst("Fullname");
+
+        if (emailClaim != null)
+        {
+            ViewData["Email"] = emailClaim.Value;
+            // Do something with the email claim
+        }
+
+        if (fullNameClaim != null)
+        {
+            name = fullNameClaim.Value;
+            // Do something with the Fullname claim
+        }
+    }
+}
+
+@if (TempData["success"] != null)
 {
     <script src="~/lib//jquery/dist/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -8,6 +32,23 @@
         Swal.fire({
             title: satu,
             text: dua,
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    </script>
+}
+
+
+@if (TempData["login"] != null)
+{
+    <script src="~/lib//jquery/dist/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script type="text/javascript">
+        let satu = '@TempData["login"]'
+        Swal.fire({
+            title: satu,
+            text: "Selamat Datang, @name",
             icon: 'success',
             showConfirmButton: false,
             timer: 1500

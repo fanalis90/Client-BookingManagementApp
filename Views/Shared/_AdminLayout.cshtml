@@ -1,4 +1,28 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims;
+@{
+    var claimsIdentity = User.Identity as ClaimsIdentity;
+    var name = "user";
+    if (claimsIdentity != null)
+    {
+        // Get the value of a specific claim
+        var emailClaim = claimsIdentity.FindFirst("Email");
+        var fullNameClaim = claimsIdentity.FindFirst("Fullname");
+        
+        if (emailClaim != null)
+        {
+            ViewData["Email"] = emailClaim.Value;
+            // Do something with the email claim
+        }
+
+        if (fullNameClaim != null)
+        {
+            name = fullNameClaim.Value;
+            // Do something with the Fullname claim
+        }
+    }
+}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -9,7 +33,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Admin Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="~/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -47,7 +71,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" asp-controller="Employee" asp-action="List" >
+                <a class="nav-link" asp-controller="Employee" asp-action="List">
                     <i class="bi bi-list"></i>
                     <span>List Employee</span>
                 </a>
@@ -239,7 +263,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Budi</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@name</span>
                                 <img class="img-profile rounded-circle"
                                      src="~/admin/img/undraw_profile.svg">
                             </a>
@@ -327,7 +351,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="/Auth/Logout">Logout</a>
                 </div>
             </div>
         </div>
